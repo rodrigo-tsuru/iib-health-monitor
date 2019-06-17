@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JCN_HOME/javacompute.jar"/>
+	<classpathentry kind="var" path="JCN_HOME/jplugin2.jar"/>
+	<classpathentry kind="var" path="COMMON_CLASSES_HOME/IntegrationAPI.jar"/>
+	<classpathentry kind="lib" path="/home/tsuru/iib-10.0.0.12/common/classes/IntegrationAPI.jar"/>
+	<classpathentry kind="con" path="com.ibm.etools.mft.uri.classpath.MBProjectReference"/>
+	<classpathentry kind="lib" path="/home/tsuru/iib-10.0.0.12/server/classes/jplugininternal.jar"/>
+	<classpathentry kind="output" path="target"/>
+</classpath>

@@ -1,0 +1,230 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "An API for IIB v10 Health Monitoring",
+    "version" : "1.0.0-alpha",
+    "title" : "IIB Health Monitor",
+    "contact" : {
+      "email" : "caixapostal@gmail.com"
+    }
+  },
+  "host" : "localhost:7800",
+  "basePath" : "/iib/healthmonitor/v1",
+  "tags" : [ {
+    "name" : "security",
+    "description" : "Security Config"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/config/info" : {
+      "get" : {
+        "tags" : [ "config" ],
+        "summary" : "Finds basic info about IBM Integration Bus Node",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/IIBInfo"
+            }
+          }
+        },
+        "operationId" : "retrieveConfig"
+      }
+    },
+    "/security/certificate" : {
+      "get" : {
+        "tags" : [ "security" ],
+        "summary" : "Finds certificates from keystores used by IBM Integration Bus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "expInterval",
+          "required" : false,
+          "type" : "integer",
+          "description" : "Certificate expiration interval in days. Returns all certificates if not present."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Certificate"
+              }
+            }
+          }
+        },
+        "operationId" : "retrieveCertificates"
+      }
+    },
+    "/security/check" : {
+      "get" : {
+        "tags" : [ "security" ],
+        "summary" : "Checks IIB Security best practices",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Issue"
+              }
+            }
+          }
+        },
+        "operationId" : "checkSecurityConfig"
+      }
+    },
+    "/config/check" : {
+      "get" : {
+        "tags" : [ "config" ],
+        "summary" : "Checks IIB config best practices",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Issue"
+              }
+            }
+          }
+        },
+        "operationId" : "checkConfig"
+      }
+    },
+    "/performance/check" : {
+      "get" : {
+        "tags" : [ "config" ],
+        "summary" : "Checks IIB performance best practices",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Issue"
+              }
+            }
+          }
+        },
+        "operationId" : "checkPerformanceConfig"
+      }
+    },
+    "/availability/check" : {
+      "get" : {
+        "tags" : [ "config" ],
+        "summary" : "Checks if all message flows are running",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Issue"
+              }
+            }
+          }
+        },
+        "operationId" : "checkAvailability"
+      }
+    }
+  },
+  "definitions" : {
+    "Certificate" : {
+      "type" : "object",
+      "properties" : {
+        "version" : {
+          "type" : "string"
+        },
+        "serial" : {
+          "type" : "string"
+        },
+        "signatureAlgorithmID" : {
+          "type" : "string"
+        },
+        "issuerName" : {
+          "type" : "string"
+        },
+        "validityPeriod" : {
+          "type" : "object",
+          "properties" : {
+            "notBefore" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "notAfter" : {
+              "type" : "string",
+              "format" : "date-time"
+            }
+          }
+        },
+        "fingerprint" : {
+          "type" : "string",
+          "description" : "unique identifier of certificate"
+        },
+        "subjectName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Issue" : {
+      "type" : "object",
+      "properties" : {
+        "severity" : {
+          "type" : "string",
+          "enum" : [ "WARNING", "MINOR", "MAJOR" ]
+        },
+        "desc" : {
+          "type" : "string"
+        },
+        "ref" : {
+          "type" : "string"
+        },
+        "solution" : {
+          "type" : "string"
+        }
+      }
+    },
+    "IIBInfo" : {
+      "type" : "object",
+      "properties" : {
+        "hostname" : {
+          "type" : "string"
+        },
+        "os" : {
+          "type" : "string"
+        },
+        "iibVersion" : {
+          "type" : "string"
+        },
+        "iibArch" : {
+          "type" : "string"
+        },
+        "iibMQenabled" : {
+          "type" : "boolean"
+        },
+        "iibLastUpdateTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "iibJREVersion" : {
+          "type" : "string"
+        },
+        "iibJRETZDataVersion" : {
+          "type" : "string",
+          "description" : "Time Zone Data table used by IIBs JRE."
+        }
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Swagger",
+    "url" : "http://swagger.io"
+  }
+}
